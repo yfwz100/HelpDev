@@ -1,0 +1,4 @@
+[Application]
+name=org.gnome.gitlab.HelpDev
+runtime=org.gnome.Sdk/x86_64/46
+sdk=org.gnome.Sdk/x86_64/46

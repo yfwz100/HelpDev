@@ -1,0 +1,6 @@
+data/org.gnome.gitlab.HelpDev.desktop.in
+data/org.gnome.gitlab.HelpDev.metainfo.xml.in
+data/org.gnome.gitlab.HelpDev.gschema.xml
+src/main.vala
+src/window.vala
+src/window.ui
