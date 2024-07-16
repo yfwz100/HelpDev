@@ -8,7 +8,9 @@
     <property name="content">
       <object class="AdwNavigationSplitView" id="split_view">
         <property name="sidebar">
-          <object class="HelpdevSidebar" id="sidebar"></object>
+          <object class="HelpdevSidebar" id="sidebar">
+            <signal name="link_clicked" handler="on_link_clicked" />
+          </object>
         </property>
         <property name="content">
           <object class="AdwNavigationPage">

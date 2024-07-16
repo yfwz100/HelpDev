@@ -74,6 +74,8 @@
                             ]]></property>
                           </object>
                         </property>
+                        <property name="single_click_activate">yes</property>
+                        <signal name="activate" handler="on_item_activated" />
                       </object>
                     </property>
                   </object>

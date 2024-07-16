@@ -43,7 +43,7 @@ namespace Helpdev {
     protected Xml.Node* node;
 
     public XmlNodeDocItem (string name, string link, Xml.Node* node) {
-      Object(name: name, link: link);
+      Object (name: name, link: link);
       this.node = node;
     }
 
@@ -51,7 +51,7 @@ namespace Helpdev {
       if (node->child_element_count () == 0) {
         return null;
       }
-      return new XmlNodeDocListModel (node);
+      return new XmlNodeDocListModel (link, node);
     }
   }
 
@@ -100,14 +100,15 @@ namespace Helpdev {
 
   public class XmlNodeDocListModel : BaseDocListModel {
 
-    public XmlNodeDocListModel (Xml.Node* node) {
-      Object();
+    public XmlNodeDocListModel (string base_link, Xml.Node* node) {
+      Object ();
 
       for (var itr = node->children; itr != null; itr = itr->next) {
         if (itr->type != Xml.ElementType.ELEMENT_NODE || itr->name != "sub") {
           continue;
         }
-        add_item (new XmlNodeDocItem (itr->get_prop ("name"), itr->get_prop ("link"), itr));
+        var link = File.new_for_uri (base_link).get_parent ().resolve_relative_path (itr->get_prop ("link")).get_uri ();
+        add_item (new XmlNodeDocItem (itr->get_prop ("name"), link, itr));
       }
     }
   }

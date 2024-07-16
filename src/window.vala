@@ -23,21 +23,15 @@ namespace Helpdev {
   public class Window : Adw.ApplicationWindow {
 
     [GtkChild]
-    private unowned Sidebar sidebar;
-
-    [GtkChild]
     private unowned Browser browser;
 
     public Window (Gtk.Application app) {
       Object (application: app);
     }
 
-    protected override void constructed () {
-      base.constructed ();
-
-      sidebar.link_clicked.connect ((uri) => {
-        browser.active_web_view.load_uri (uri);
-      });
+    [GtkCallback]
+    private void on_link_clicked (string uri) {
+      browser.active_web_view.load_uri (uri);
     }
 
     [GtkCallback]

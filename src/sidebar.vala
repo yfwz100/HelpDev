@@ -53,7 +53,28 @@ namespace Helpdev {
       var model = create_navigation_model (null);
       var tree_model = new Gtk.TreeListModel (model, false, false, create_navigation_model);
       var selection = new Gtk.SingleSelection (tree_model);
-      list_view.set_model (selection);
+      list_view.model = selection;
+    }
+
+    [GtkCallback]
+    public void on_item_activated (uint pos) {
+      var item = list_view.model.get_item (pos);
+      if (item == null) {
+        warning ("invalid position is activated");
+        return;
+      }
+      var row = item as Gtk.TreeListRow;
+      if (row == null) {
+        warning ("invalid row");
+        return;
+      }
+      var doc_item = row.item as DocItem;
+      if (doc_item == null) {
+        warning ("invalid doc item: %u", pos);
+        return;
+      }
+      warning ("link: %s", doc_item.link);
+      link_clicked (doc_item.link);
     }
   }
 }
