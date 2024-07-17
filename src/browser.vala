@@ -49,6 +49,10 @@ namespace Helpdev {
         },
       };
       web_view.set_background_color (Gdk.RGBA () { alpha = 0 });
+      var stylesheet = new WebKit.UserStyleSheet (".devhelp-hidden { display: none; }",
+                                                  WebKit.UserContentInjectedFrames.ALL_FRAMES,
+                                                  WebKit.UserStyleLevel.USER, null, null);
+      web_view.user_content_manager.add_style_sheet (stylesheet);
 
       this.child = this.web_view = web_view;
     }

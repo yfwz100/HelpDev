@@ -13,8 +13,13 @@
           </object>
         </property>
         <property name="content">
-          <object class="AdwNavigationPage">
+          <object class="AdwNavigationPage" id="browser_frame">
             <property name="title" translatable="yes">Content</property>
+            <binding name="title">
+              <lookup name="title">
+                <lookup name="active_web_view">browser</lookup>
+              </lookup>
+            </binding>
             <property name="child">
               <object class="AdwToolbarView">
                 <child type="top">
