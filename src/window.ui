@@ -22,6 +22,7 @@
             </binding>
             <property name="child">
               <object class="AdwToolbarView">
+                <property name="top-bar-style">ADW_TOOLBAR_RAISED</property>
                 <child type="top">
                   <object class="AdwHeaderBar" id="header_bar">
                     <child type="start">
