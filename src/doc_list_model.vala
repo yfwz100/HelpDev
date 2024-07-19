@@ -19,6 +19,20 @@
  */
 
 namespace Helpdev {
+
+  /**
+   * Get the URI by relative path.
+   */
+  string get_relative_uri (string base_link, string relative_path) {
+    var tokens = relative_path.split ("#", 2);
+    var anchor = "";
+    if (tokens.length > 1) {
+      relative_path = tokens[0];
+      anchor = "#" + tokens[1];
+    }
+    return File.new_for_uri (base_link).get_parent ().resolve_relative_path (relative_path).get_uri () + anchor;
+  }
+
   /**
    * The document item that used in sidebar.
    */
@@ -56,25 +70,6 @@ namespace Helpdev {
   }
 
   /**
-   * File-based document item.
-   */
-  public class FileDocItem : DocItem {
-
-    public File help_file { construct; get; }
-
-    /**
-     * Create a file-based document item.
-     */
-    public FileDocItem (string name, string link, File help_file) {
-      Object (name: name, link: link, help_file: help_file);
-    }
-
-    public override ListModel ? query_sub_items () {
-      return null;
-    }
-  }
-
-  /**
    * The base class to implement a list model.
    */
   public abstract class BaseDocListModel : Object, ListModel {
@@ -107,7 +102,7 @@ namespace Helpdev {
         if (itr->type != Xml.ElementType.ELEMENT_NODE || itr->name != "sub") {
           continue;
         }
-        var link = File.new_for_uri (base_link).get_parent ().resolve_relative_path (itr->get_prop ("link")).get_uri ();
+        var link = get_relative_uri (base_link, itr->get_prop ("link"));
         add_item (new XmlNodeDocItem (itr->get_prop ("name"), link, itr));
       }
     }
