@@ -31,17 +31,17 @@ namespace Helpdev {
 
     [GtkCallback]
     private void on_link_clicked (string uri) {
-      browser.active_web_view.load_uri (uri);
+      browser.web_view.load_uri (uri);
     }
 
     [GtkCallback]
     private void on_browser_back () {
-      browser.active_web_view.go_back ();
+      browser.web_view.go_back ();
     }
 
     [GtkCallback]
     private void on_browser_forward () {
-      browser.active_web_view.go_forward ();
+      browser.web_view.go_forward ();
     }
   }
 }

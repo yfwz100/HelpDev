@@ -22,13 +22,11 @@ namespace Helpdev {
 
   public class Browser : Adw.Bin {
 
-    private unowned WebKit.WebView web_view;
+    public unowned WebKit.WebView web_view { private set; get; }
 
-    public unowned WebKit.WebView active_web_view {
-      get {
-        return web_view;
-      }
-    }
+    public bool can_go_back { private set; get; }
+
+    public bool can_go_forward { private set; get; }
 
     public Browser () {
       Object ();
@@ -53,6 +51,10 @@ namespace Helpdev {
                                                   WebKit.UserContentInjectedFrames.ALL_FRAMES,
                                                   WebKit.UserStyleLevel.USER, null, null);
       web_view.user_content_manager.add_style_sheet (stylesheet);
+      web_view.load_changed.connect (() => {
+        this.can_go_back = web_view.can_go_back ();
+        this.can_go_forward = web_view.can_go_forward ();
+      });
 
       this.child = this.web_view = web_view;
     }

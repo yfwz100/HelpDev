@@ -17,7 +17,7 @@
             <property name="title" translatable="yes">Content</property>
             <binding name="title">
               <lookup name="title">
-                <lookup name="active_web_view">browser</lookup>
+                <lookup name="web_view">browser</lookup>
               </lookup>
             </binding>
             <property name="child">
@@ -29,6 +29,9 @@
                       <object class="GtkButton">
                         <property name="icon-name">go-previous-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Back</property>
+                        <binding name="sensitive">
+                          <lookup name="can-go-back">browser</lookup>
+                        </binding>
                         <signal name="clicked" handler="on_browser_back"/>
                       </object>
                     </child>
@@ -36,6 +39,9 @@
                       <object class="GtkButton">
                         <property name="icon-name">go-next-symbolic</property>
                         <property name="tooltip-text" translatable="yes">Forward</property>
+                        <binding name="sensitive">
+                          <lookup name="can-go-forward">browser</lookup>
+                        </binding>
                         <signal name="clicked" handler="on_browser_forward"/>
                       </object>
                     </child>
@@ -58,4 +64,3 @@
     </property>
   </template>
 </interface>
-
