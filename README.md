@@ -8,8 +8,8 @@ Open GNOME [Builder][] and it should setup automatically.
 
 ## License
 
-[GPL][].
+[GPLv3][].
 
 [Devhelp]: https://apps.gnome.org/zh-CN/Devhelp/ "GNOME DevHelp"
 [Builder]: https://apps.gnome.org/zh-CN/Builder/ "GNOME Builder"
-[GPL]: ./COPYING "GPL License"
+[GPLv3]: ./COPYING "GPL v3 License"
