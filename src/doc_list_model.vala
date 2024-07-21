@@ -73,7 +73,7 @@ namespace Helpdev {
    * The base class to implement a list model.
    */
   public abstract class BaseDocListModel : Object, ListModel {
-    private GenericArray<DocItem> items = new GenericArray<DocItem> ();
+    protected GenericArray<DocItem> items = new GenericArray<DocItem> ();
 
     protected void add_item (DocItem item) {
       items.add (item);
@@ -166,9 +166,15 @@ namespace Helpdev {
           var title = root->get_prop ("title");
           var link = root->get_prop ("link");
           var link_uri = cur_file.resolve_relative_path (link).get_uri ();
-          add_item (new XmlNodeDocItem (title, link_uri, root->first_element_child ()));
+          items.add (new XmlNodeDocItem (title, link_uri, root->first_element_child ()));
         }
       }
+
+      items.sort ((a, b) => {
+        return a.name > b.name ? 1 : a.name == b.name ? 0 : -1;
+      });
+
+      items_changed (0, 0, items.length);
     }
   }
 
