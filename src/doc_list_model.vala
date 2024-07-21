@@ -189,12 +189,7 @@ namespace Helpdev {
   private ListModel ? create_navigation_model (Object? item) {
     var it = item as DocItem;
     if (it == null) {
-      return new Gtk.SortListModel (new DirDocListModel (File.new_for_path (get_doc_dir ())),
-                                    new Gtk.CustomSorter ((a, b) => {
-                                      var a_item = a as DocItem;
-                                      var b_item = b as DocItem;
-                                      return a_item.name > b_item.name ? 1 : a_item.name == b_item.name ? 0 : -1;
-                                    }));
+      return new DirDocListModel (File.new_for_path (get_doc_dir ()));
     }
     return it.query_sub_items ();
   }
