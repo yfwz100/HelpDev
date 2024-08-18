@@ -50,8 +50,7 @@ namespace Helpdev {
     }
 
     public override void constructed () {
-      var model = create_navigation_model (null);
-      var tree_model = new Gtk.TreeListModel (model, false, false, create_navigation_model);
+      var tree_model = create_doc_tree_model ();
       var selection = new Gtk.SingleSelection (tree_model);
       list_view.model = selection;
     }

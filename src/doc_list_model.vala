@@ -65,7 +65,15 @@ namespace Helpdev {
       if (node->child_element_count () == 0) {
         return null;
       }
-      return new XmlNodeDocListModel (link, node);
+      var list_model = new ListStore (typeof (DocItem));
+      for (var itr = node->children; itr != null; itr = itr->next) {
+        if (itr->type != Xml.ElementType.ELEMENT_NODE || itr->name != "sub") {
+          continue;
+        }
+        var uri = get_relative_uri (link, itr->get_prop ("link"));
+        list_model.append (new XmlNodeDocItem (itr->get_prop ("name"), uri, itr));
+      }
+      return list_model;
     }
   }
 
@@ -90,21 +98,6 @@ namespace Helpdev {
 
     public uint get_n_items () {
       return items.length;
-    }
-  }
-
-  public class XmlNodeDocListModel : BaseDocListModel {
-
-    public XmlNodeDocListModel (string base_link, Xml.Node* node) {
-      Object ();
-
-      for (var itr = node->children; itr != null; itr = itr->next) {
-        if (itr->type != Xml.ElementType.ELEMENT_NODE || itr->name != "sub") {
-          continue;
-        }
-        var link = get_relative_uri (base_link, itr->get_prop ("link"));
-        add_item (new XmlNodeDocItem (itr->get_prop ("name"), link, itr));
-      }
     }
   }
 
@@ -186,11 +179,13 @@ namespace Helpdev {
     return "/usr/share/doc";
   }
 
-  private ListModel ? create_navigation_model (Object? item) {
-    var it = item as DocItem;
-    if (it == null) {
-      return new DirDocListModel (File.new_for_path (get_doc_dir ()));
-    }
-    return it.query_sub_items ();
+  public Gtk.TreeListModel create_doc_tree_model () {
+    return new Gtk.TreeListModel (new DirDocListModel (File.new_for_path (get_doc_dir ())), false, false, (item) => {
+      var it = item as DocItem;
+      if (it == null) {
+        return new ListStore (typeof (DocItem));
+      }
+      return it.query_sub_items ();
+    });
   }
 }
