@@ -7,23 +7,10 @@
       "label": "setup",
       "type": "process",
       "command": "meson",
-      "args": ["setup", "${workspaceFolder}/builddir"],
-      "presentation": {
-        "echo": true,
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": false
-      },
-    },
-    {
-      "label": "build",
-      "type": "process",
-      "command": "meson",
-      "args": ["compile", "-C", "${workspaceFolder}/builddir"],
-      "group": "build",
-      "isBuildCommand": true,
+      "args": [
+        "setup",
+        "${workspaceFolder}/builddir"
+      ],
       "presentation": {
         "echo": true,
         "reveal": "silent",
@@ -33,5 +20,29 @@
         "clear": false
       }
     },
+    {
+      "label": "build",
+      "type": "process",
+      "command": "meson",
+      "args": [
+        "compile",
+        "-C",
+        "${workspaceFolder}/builddir"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBuildCommand": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
+    }
   ]
 }

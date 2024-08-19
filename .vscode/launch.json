@@ -6,13 +6,12 @@
   "configurations": [
     {
       "name": "Launch",
-      "type": "cppdbg",
+      "type": "vgdb",
       "request": "launch",
       "program": "${workspaceRoot}/builddir/src/helpdev",
       "cwd": "${workspaceFolder}",
       "externalConsole": false,
       "preLaunchTask": "build",
-      "MIMode": "gdb",
     }
   ]
 }
