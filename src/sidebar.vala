@@ -26,6 +26,8 @@ namespace Helpdev {
   [GtkTemplate (ui = "/org/gnome/gitlab/HelpDev/sidebar.ui")]
   public class Sidebar : Adw.NavigationPage {
 
+    private DocFactory doc_factory = new DocFactory ();
+
     /**
      * check whether it's in search mode.
      */
@@ -42,6 +44,9 @@ namespace Helpdev {
     [GtkChild]
     private unowned Gtk.ListView list_view;
 
+    [GtkChild]
+    private unowned Gtk.ListView search_view;
+
     /**
      * Construct a new sidebar.
      */
@@ -50,13 +55,20 @@ namespace Helpdev {
     }
 
     public override void constructed () {
-      var tree_model = create_doc_tree_model ();
-      var selection = new Gtk.SingleSelection (tree_model);
+      var selection = new Gtk.SingleSelection (doc_factory.create_doc_tree_model ());
       list_view.model = selection;
     }
 
     [GtkCallback]
-    public void on_item_activated (uint pos) {
+    private string get_visible_child_name () {
+      if (search_mode) {
+        return "search";
+      }
+      return "tree";
+    }
+
+    [GtkCallback]
+    private void on_item_activated (uint pos) {
       var item = list_view.model.get_item (pos);
       if (item == null) {
         warning ("invalid position is activated");
@@ -67,13 +79,31 @@ namespace Helpdev {
         warning ("invalid row");
         return;
       }
-      var doc_item = row.item as DocItem;
-      if (doc_item == null) {
-        warning ("invalid doc item: %u", pos);
+      click_link_item (row.item as LinkItem);
+    }
+
+    [GtkCallback]
+    private void on_search_item_activated (uint pos) {
+      var item = search_view.model.get_item (pos);
+      if (item == null) {
+        warning ("invalid position is activated");
         return;
       }
-      warning ("link: %s", doc_item.link);
-      link_clicked (doc_item.link);
+      click_link_item (item as LinkItem);
+    }
+
+    private void click_link_item (LinkItem? item) {
+      if (item == null) {
+        warning ("invalid link item");
+        return;
+      }
+      warning ("link: %s", item.link);
+      link_clicked (item.link);
+    }
+
+    [GtkCallback]
+    public void on_search (Gtk.SearchEntry entry) {
+      search_view.model = new Gtk.SingleSelection (doc_factory.create_symbol_list_model (entry.get_text ()));
     }
   }
 }
