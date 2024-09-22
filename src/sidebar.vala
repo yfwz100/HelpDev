@@ -26,7 +26,7 @@ namespace Helpdev {
   [GtkTemplate (ui = "/org/gnome/gitlab/HelpDev/sidebar.ui")]
   public class Sidebar : Adw.NavigationPage {
 
-    private DocFactory doc_factory = new DocFactory ();
+    private DocFactory doc_factory;
 
     /**
      * check whether it's in search mode.
@@ -38,14 +38,13 @@ namespace Helpdev {
      */
     public signal void link_clicked (string uri);
 
-    // [GtkChild]
-    // private unowned Gtk.Stack stack;
-
     [GtkChild]
     private unowned Gtk.ListView list_view;
 
     [GtkChild]
     private unowned Gtk.ListView search_view;
+
+    private Settings settings;
 
     /**
      * Construct a new sidebar.
@@ -55,6 +54,16 @@ namespace Helpdev {
     }
 
     public override void constructed () {
+      this.settings = new Settings ("org.gnome.gitlab.HelpDev");
+      this.init_models ();
+      this.settings.changed["doc-paths"].connect (() => {
+        this.init_models ();
+      });
+    }
+
+    protected void init_models () {
+      var doc_paths = settings.get_strv ("doc-paths");
+      doc_factory = new DocFactory (doc_paths);
       var selection = new Gtk.SingleSelection (doc_factory.create_doc_tree_model ());
       list_view.model = selection;
     }

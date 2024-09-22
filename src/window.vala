@@ -29,6 +29,16 @@ namespace Helpdev {
       Object (application: app);
     }
 
+    construct {
+      var settings = new Settings ("org.gnome.gitlab.HelpDev");
+
+      // update the settings when the properties change and vice versa
+      settings.bind ("width", this, "default-width", SettingsBindFlags.DEFAULT);
+      settings.bind ("height", this, "default-height", SettingsBindFlags.DEFAULT);
+      settings.bind ("is-maximized", this, "maximized", SettingsBindFlags.DEFAULT);
+      settings.bind ("is-fullscreen", this, "fullscreened", SettingsBindFlags.DEFAULT);
+    }
+
     [GtkCallback]
     private void on_link_clicked (string uri) {
       browser.web_view.load_uri (uri);

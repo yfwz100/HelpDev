@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="helpdev">
 	<schema id="org.gnome.gitlab.HelpDev" path="/org/gnome/gitlab/HelpDev/">
+    <key name="width" type="i">
+      <default>640</default>
+    </key>
+    <key name="height" type="i">
+      <default>480</default>
+    </key>
+    <key name="is-maximized" type="b">
+      <default>false</default>
+    </key>
+    <key name="is-fullscreen" type="b">
+      <default>false</default>
+    </key>
+	  <key name="doc-path" type="s">
+	    <default>'/usr/share/doc'</default>
+	  </key>
+	  <key name="doc-paths" type="as">
+	    <default>['/usr/share/doc']</default>
+	  </key>
+	  <key name="custom-font" type="b">
+      <default>false</default>
+    </key>
+	  <key name="font" type="s">
+	    <default>'Sans'</default>
+	  </key>
+	  <key name="mono-font" type="s">
+	    <default>'Monospace'</default>
+	  </key>
 	</schema>
 </schemalist>

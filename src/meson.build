@@ -4,6 +4,7 @@ helpdev_sources = [
   'window.vala',
   'browser.vala',
   'sidebar.vala',
+  'pref_dialog.vala',
   'doc_list_model.vala'
 ]
 

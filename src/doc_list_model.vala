@@ -134,26 +134,31 @@ namespace Helpdev {
 
   public class DocFactory : Object {
 
-    private File? doc_dir { private set; get; }
+    private File[] doc_dirs { private set; get; }
 
     private ListStore docs;
 
-    public DocFactory (string doc_dir_path = get_doc_dir ()) {
-      this.doc_dir = File.new_for_path (doc_dir_path);
-      this.docs = load_from_file_async ();
+    public DocFactory (owned string[] doc_dir_paths) {
+      this.doc_dirs = new File[doc_dir_paths.length];
+      for (int i=0; i < this.doc_dirs.length; i+=1) {
+        this.doc_dirs[i] = File.new_for_path (doc_dir_paths[i]);
+      }
+      this.docs = load_from_file ();
     }
 
-    protected ListStore load_from_file_async (Cancellable? cancellable = null) {
+    protected ListStore load_from_file (Cancellable? cancellable = null) {
       try {
         var docs = new ListStore (typeof (LinkItem));
-        var enumerator = doc_dir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, cancellable);
+        foreach (var doc_dir in doc_dirs) {
+          var enumerator = doc_dir.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, cancellable);
 
-        FileInfo? file_info;
-        while ((file_info = enumerator.next_file (cancellable)) != null) {
-          var cur_file = doc_dir.resolve_relative_path (file_info.get_name ());
-          var help_file = cur_file.resolve_relative_path (file_info.get_name () + ".devhelp2");
-          if (help_file.query_exists (cancellable)) {
-            docs.append (DocFileItem.read_from_devhelp_file (help_file));
+          FileInfo? file_info;
+          while ((file_info = enumerator.next_file (cancellable)) != null) {
+            var cur_file = doc_dir.resolve_relative_path (file_info.get_name ());
+            var help_file = cur_file.resolve_relative_path (file_info.get_name () + ".devhelp2");
+            if (help_file.query_exists (cancellable)) {
+              docs.append (DocFileItem.read_from_devhelp_file (help_file));
+            }
           }
         }
 

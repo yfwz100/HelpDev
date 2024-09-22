@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0" />
+  <requires lib="Adw" version="1.0" />
+  <template class="HelpdevPrefDialog" parent="AdwPreferencesDialog">
+    <child>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup" id="path_group">
+            <property name="title">Paths of docs</property>
+            <child type="header-suffix">
+              <object class="GtkButton">
+                <property name="icon-name">list-add-symbolic</property>
+                <style>
+                  <class name="flat" />
+                </style>
+                <signal name="clicked" handler="on_path_add" />
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBox" id="path_list_box">
+                <style>
+                  <class name="boxed-list" />
+                </style>
+                <property name="selection-mode">none</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title">Appearance</property>
+            <child>
+              <object class="AdwSwitchRow" id="custom_font_switch">
+                <property name="title">Custom fonts</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwEntryRow" id="font_entry">
+                <property name="title">Font</property>
+                <binding name="sensitive">
+                  <lookup name="active">custom_font_switch</lookup>
+                </binding>
+              </object>
+            </child>
+            <child>
+              <object class="AdwEntryRow" id="mono_font_entry">
+                <property name="title">Mono font</property>
+                <binding name="sensitive">
+                  <lookup name="active">custom_font_switch</lookup>
+                </binding>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

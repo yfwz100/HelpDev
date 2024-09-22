@@ -19,6 +19,7 @@
  */
 
 namespace Helpdev {
+
   public class Application : Adw.Application {
     public Application () {
       Object (application_id: "org.gnome.gitlab.HelpDev", flags: ApplicationFlags.DEFAULT_FLAGS);
@@ -48,7 +49,7 @@ namespace Helpdev {
       var about = new Adw.AboutWindow () {
         transient_for = this.active_window,
         application_name = "helpdev",
-        application_icon = "org.gnome.gitlab.HelpDev",
+        application_icon = "org.gnome.Devhelp",
         developer_name = "Zhi",
         version = "0.1.0",
         developers = developers,
@@ -59,7 +60,7 @@ namespace Helpdev {
     }
 
     private void on_preferences_action () {
-      message ("app.preferences action activated");
+      new PrefDialog ().present (this.active_window);
     }
   }
 }
